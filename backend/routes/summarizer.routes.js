@@ -1,9 +1,8 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
+const summarizerController = require('../controllers/summarizer.controller');
 
-// Placeholder controller import
-// import { summarizeArticle } from '../controllers/summarizer.controller.js';
+// Route for article summarization
+router.post('/summarize', summarizerController.summarizeArticle);
 
-router.post('/summarize', (req, res) => res.send('Summarize endpoint'));
-
-export default router; 
+module.exports = router; 

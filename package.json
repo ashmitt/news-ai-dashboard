@@ -1,5 +1,27 @@
 {
+  "name": "newsflow-ai",
+  "version": "1.0.0",
+  "description": "AI-Powered News Dashboard with Real-time Summarization",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+  },
+  "keywords": [
+    "news",
+    "ai",
+    "summarization",
+    "react",
+    "nodejs",
+    "gemini",
+    "dashboard"
+  ],
+  "author": "NewsFlow AI Team",
+  "license": "MIT",
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "concurrently": "^8.2.2"
   }
 }

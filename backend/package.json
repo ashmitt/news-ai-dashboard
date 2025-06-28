@@ -1,19 +1,29 @@
 {
-  "name": "news-ai-backend",
+  "name": "newsflow-ai-backend",
   "version": "1.0.0",
+  "description": "Backend API for NewsFlow AI - News Summarization Service",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "news",
+    "ai",
+    "summarization",
+    "express",
+    "gemini",
+    "api"
+  ],
+  "author": "NewsFlow AI Team",
+  "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "mongoose": "^7.6.3"
+    "express": "^4.18.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.0.2"
   }
 }
