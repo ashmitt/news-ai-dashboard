@@ -1,0 +1,115 @@
+
+PROJECT TITLE:
+News Dashboard with AI Summarizer
+
+OBJECTIVE:
+Build a React-based web app that:
+1. Shows categorized news articles via NewsAPI
+2. Summarizes selected articles using Google Gemini API
+3. Optionally includes a Node.js + MongoDB backend for user authentication and saved articles
+
+TECH STACK:
+| Layer         | Technologies Used                   |
+|---------------|-------------------------------------|
+| Frontend      | ReactJS, Axios, TailwindCSS/Bootstrap |
+| APIs          | NewsAPI.org, Google Gemini API      |
+| Backend (Bonus) | Node.js (Express), MongoDB Atlas     |
+| Auth (Bonus)  | JWT, bcrypt                         |
+| Storage       | sessionStorage or MongoDB           |
+
+PROJECT STRUCTURE:
+news-ai-dashboard/
+├── backend/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── .env
+│   └── index.js
+├── frontend/
+│   ├── components/
+│   ├── pages/
+│   ├── App.jsx
+│   ├── main.jsx
+│   ├── .env.local
+│   └── index.css
+└── README.md
+
+PHASE-WISE ACTION PLAN:
+
+PHASE 1 – UI DESIGN & STATIC COMPONENTS (1 Day)
+- Navbar with title/logo, Home, My Summaries
+- Tabs for categories
+- Article card with hover effect
+- Article details modal/page
+
+PHASE 2 – API INTEGRATION (1–1.5 Days)
+- Integrate NewsAPI with loading/error states
+- Cache articles using sessionStorage
+
+NewsAPI Example:
+https://newsapi.org/v2/top-headlines?category=technology&apiKey=YOUR_API_KEY
+
+PHASE 3 – GEMINI SUMMARIZER (1 Day)
+- Add Summarize button per article
+- Show loading/error states for summarizer
+- Store Gemini API Key in .env.local
+
+Gemini Fetch Sample:
+fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + import.meta.env.VITE_GEMINI_API_KEY, {...})
+
+PHASE 4 – BONUS BACKEND (2 Days)
+- Setup Express backend and connect MongoDB
+- Auth routes, Save Article model
+- Create Gemini API proxy route
+
+MINIMAL CODE SNIPPETS:
+
+ArticleCard Component:
+function ArticleCard({ article }) {
+  return (
+    <div className="card">
+      <img src={article.urlToImage} alt="thumbnail" />
+      <h2>{article.title}</h2>
+      <p>{article.source.name}</p>
+      <button onClick={() => handleSummarize(article)}>Summarize</button>
+    </div>
+  );
+}
+
+CategoryTabs Component:
+const categories = ["business", "technology", "sports", "health"];
+function CategoryTabs({ onSelect }) {
+  return (
+    <div className="tabs">
+      {categories.map(cat => (
+        <button key={cat} onClick={() => onSelect(cat)}>{cat.toUpperCase()}</button>
+      ))}
+    </div>
+  );
+}
+
+Fetch News Function:
+async function fetchNews(category) {
+  const res = await fetch(`https://newsapi.org/v2/top-headlines?category=${category}&apiKey=${import.meta.env.VITE_NEWS_API_KEY}`);
+  const data = await res.json();
+  return data.articles;
+}
+
+UX SUGGESTIONS:
+- Use spinner loaders
+- Use react-toastify for error messages
+- Dark mode toggle
+- Responsive design
+
+FEATURES CHECKLIST:
+- [x] Navbar + Routing
+- [x] Category Tabs
+- [x] Article Display
+- [x] NewsAPI Integration
+- [x] Error Handling
+- [x] Gemini Summarizer
+- [x] Summarization State Handling
+- [ ] Backend with DB (Optional)
+- [x] Cache using sessionStorage
+
+DEADLINE: 30th June, 23:59
