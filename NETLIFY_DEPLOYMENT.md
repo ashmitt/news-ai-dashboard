@@ -10,7 +10,7 @@ This guide will walk you through deploying your NewsFlow AI Dashboard to Netlify
 - Repository should be public or you need Netlify Pro for private repos
 
 ### 2. API Keys Ready
-- News API key
+- News API key (will be set in Railway backend)
 - Backend API URL (Railway deployment)
 
 ### 3. Netlify Account
@@ -38,7 +38,6 @@ ls dist/
 Create a `.env.production` file in the frontend directory:
 ```bash
 # Frontend/.env.production
-VITE_NEWS_API_KEY=your_news_api_key_here
 VITE_BACKEND_URL=https://your-railway-backend-url.railway.app
 ```
 
@@ -65,9 +64,8 @@ Netlify will auto-detect the settings from `netlify.toml`, but verify:
 #### Step 4: Set Environment Variables
 In the Netlify dashboard:
 1. Go to Site settings → Environment variables
-2. Add the following variables:
+2. Add the following variable:
    ```
-   VITE_NEWS_API_KEY=your_actual_news_api_key
    VITE_BACKEND_URL=https://your-railway-backend-url.railway.app
    ```
 
@@ -119,8 +117,7 @@ If you prefer, create `frontend/public/_redirects`:
 ### Required Variables
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `VITE_NEWS_API_KEY` | News API key for fetching news articles | `abc123def456` |
-| `VITE_BACKEND_URL` | Railway backend URL for AI summarization | `https://your-app.railway.app` |
+| `VITE_BACKEND_URL` | Railway backend URL for news fetching and AI summarization | `https://your-app.railway.app` |
 
 ### Setting in Netlify
 1. Go to Site settings → Environment variables

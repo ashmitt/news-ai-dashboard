@@ -1,38 +1,25 @@
 export async function fetchNews(category) {
-  const apiKey = import.meta.env.VITE_NEWS_API_KEY;
-  if (!apiKey) {
-    throw new Error('NewsAPI key is missing. Please set VITE_NEWS_API_KEY in your .env.local file.');
-  }
+  // Use environment variable for backend URL, fallback to localhost for development
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
-  // Try top-headlines first (for specific categories)
   try {
-    const topHeadlinesUrl = `https://newsapi.org/v2/top-headlines?category=${category}&apiKey=${apiKey}`;
-    console.log('Trying top-headlines:', topHeadlinesUrl);
-    const res = await fetch(topHeadlinesUrl);
-    const data = await res.json();
-    console.log('Top-headlines response:', data);
+    const response = await fetch(`${backendUrl}/api/news/${encodeURIComponent(category)}`);
     
-    if (data.status === 'ok' && data.articles && data.articles.length > 0) {
-      return data.articles;
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
     }
-  } catch (error) {
-    console.log('Top-headlines failed, trying everything endpoint');
-  }
 
-  // Fallback to everything endpoint (more flexible)
-  try {
-    const everythingUrl = `https://newsapi.org/v2/everything?q=${encodeURIComponent(category)}&sortBy=popularity&apiKey=${apiKey}`;
-    console.log('Trying everything endpoint:', everythingUrl);
-    const res = await fetch(everythingUrl);
-    const data = await res.json();
-    console.log('Everything response:', data);
+    const data = await response.json();
+    console.log('News response:', data);
     
-    if (data.status === 'ok' && data.articles) {
+    if (data.articles && data.articles.length > 0) {
       return data.articles;
     } else {
-      throw new Error(data.message || 'Failed to fetch news');
+      throw new Error('No articles found');
     }
   } catch (error) {
+    console.error('News fetching error:', error);
     throw new Error(`Failed to fetch news: ${error.message}`);
   }
 }
