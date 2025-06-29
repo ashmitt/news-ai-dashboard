@@ -5,11 +5,12 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration for production
+// CORS configuration for development
 const corsOptions = {
   origin: [
     'http://localhost:3000',
     'http://localhost:5173',
+    'http://localhost:4173',
     'https://*.netlify.app',
     'https://*.railway.app',
     'https://*.herokuapp.com',
@@ -32,6 +33,7 @@ app.get('/', (req, res) => {
     status: 'OK', 
     message: 'NewsFlow AI Backend is running!',
     version: '1.0.0',
+    environment: process.env.NODE_ENV || 'development',
     timestamp: new Date().toISOString()
   });
 });
@@ -40,6 +42,7 @@ app.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     message: 'NewsFlow AI Backend is running!',
+    environment: process.env.NODE_ENV || 'development',
     timestamp: new Date().toISOString()
   });
 });
@@ -66,4 +69,5 @@ app.listen(PORT, () => {
   console.log(`🚀 NewsFlow AI Backend running on port ${PORT}`);
   console.log(`📡 Health check: http://localhost:${PORT}/health`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🔗 Frontend URL: http://localhost:5173`);
 });
