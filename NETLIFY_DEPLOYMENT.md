@@ -11,8 +11,7 @@ This guide will walk you through deploying your NewsFlow AI Dashboard to Netlify
 
 ### 2. API Keys Ready
 - News API key
-- Google Gemini API key
-- Backend API URL (if deploying backend separately)
+- Backend API URL (Railway deployment)
 
 ### 3. Netlify Account
 - Sign up at [netlify.com](https://netlify.com)
@@ -40,8 +39,7 @@ Create a `.env.production` file in the frontend directory:
 ```bash
 # Frontend/.env.production
 VITE_NEWS_API_KEY=your_news_api_key_here
-VITE_GEMINI_API_KEY=your_gemini_api_key_here
-VITE_API_URL=https://your-backend-url.com
+VITE_BACKEND_URL=https://your-railway-backend-url.railway.app
 ```
 
 ## 🌐 Deployment Methods
@@ -60,7 +58,7 @@ VITE_API_URL=https://your-backend-url.com
 
 #### Step 3: Configure Build Settings
 Netlify will auto-detect the settings from `netlify.toml`, but verify:
-- **Build command**: `cd frontend && npm install && npm run build`
+- **Build command**: `chmod +x build.sh && ./build.sh`
 - **Publish directory**: `frontend/dist`
 - **Base directory**: `.` (root)
 
@@ -70,8 +68,7 @@ In the Netlify dashboard:
 2. Add the following variables:
    ```
    VITE_NEWS_API_KEY=your_actual_news_api_key
-   VITE_GEMINI_API_KEY=your_actual_gemini_api_key
-   VITE_API_URL=https://your-backend-url.com
+   VITE_BACKEND_URL=https://your-railway-backend-url.railway.app
    ```
 
 #### Step 5: Deploy
@@ -122,9 +119,8 @@ If you prefer, create `frontend/public/_redirects`:
 ### Required Variables
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `VITE_NEWS_API_KEY` | News API key | `abc123def456` |
-| `VITE_GEMINI_API_KEY` | Google Gemini API key | `xyz789uvw012` |
-| `VITE_API_URL` | Backend API URL | `https://api.yoursite.com` |
+| `VITE_NEWS_API_KEY` | News API key for fetching news articles | `abc123def456` |
+| `VITE_BACKEND_URL` | Railway backend URL for AI summarization | `https://your-app.railway.app` |
 
 ### Setting in Netlify
 1. Go to Site settings → Environment variables
