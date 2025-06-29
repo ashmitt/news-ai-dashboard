@@ -1,6 +1,6 @@
 [build]
   # Build command for the frontend
-  command = "chmod +x build.sh && ./build.sh"
+  command = "cd frontend && npm install && npm run build"
   
   # Publish directory (where the built files are located)
   publish = "frontend/dist"
