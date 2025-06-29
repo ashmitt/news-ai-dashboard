@@ -1,6 +1,6 @@
 [build]
   # Build command for the frontend
-  command = "cd frontend && npm install && npm run build"
+  command = "cd frontend && npm ci --include=dev && npm run build"
   
   # Publish directory (where the built files are located)
   publish = "frontend/dist"
@@ -14,9 +14,6 @@
   
   # Build environment
   NODE_ENV = "production"
-  
-  # Ensure npm uses the correct registry
-  NPM_FLAGS = "--legacy-peer-deps"
 
 # Redirects for SPA (Single Page Application)
 [[redirects]]
