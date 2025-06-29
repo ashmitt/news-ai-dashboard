@@ -1,9 +1,6 @@
 export async function fetchNews(category) {
-  // Use environment variable for backend URL, fallback to localhost for development
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
-
   try {
-    const response = await fetch(`${backendUrl}/api/news/${encodeURIComponent(category)}`);
+    const response = await fetch(`/.netlify/functions/news?category=${encodeURIComponent(category)}`);
     
     if (!response.ok) {
       const errorData = await response.json();

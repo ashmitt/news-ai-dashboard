@@ -15,6 +15,10 @@
   # Build environment
   NODE_ENV = "development"
 
+# Functions configuration
+[functions]
+  directory = "netlify/functions"
+
 # Redirects for SPA (Single Page Application)
 [[redirects]]
   from = "/*"
@@ -99,8 +103,4 @@
   command = "cd frontend && npm run dev"
   port = 5173
   publish = "frontend/dist"
-  framework = "#custom"
-
-# Functions (if you want to add serverless functions later)
-[functions]
-  directory = "netlify/functions" 
+  framework = "#custom" 

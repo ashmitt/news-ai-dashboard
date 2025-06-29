@@ -1,7 +1,7 @@
 # Netlify Deployment Guide for NewsFlow AI Dashboard
 
 ## 🚀 Overview
-This guide will walk you through deploying your NewsFlow AI Dashboard to Netlify, a popular platform for hosting static websites and SPAs.
+This guide will walk you through deploying your NewsFlow AI Dashboard to Netlify using Netlify Functions for the backend API.
 
 ## 📋 Prerequisites
 
@@ -10,8 +10,8 @@ This guide will walk you through deploying your NewsFlow AI Dashboard to Netlify
 - Repository should be public or you need Netlify Pro for private repos
 
 ### 2. API Keys Ready
-- News API key (will be set in Railway backend)
-- Backend API URL (Railway deployment)
+- News API key
+- Google Gemini API key
 
 ### 3. Netlify Account
 - Sign up at [netlify.com](https://netlify.com)
@@ -35,11 +35,7 @@ ls dist/
 ```
 
 ### 2. Environment Variables
-Create a `.env.production` file in the frontend directory:
-```bash
-# Frontend/.env.production
-VITE_BACKEND_URL=https://your-railway-backend-url.railway.app
-```
+No frontend environment variables needed! The frontend now uses Netlify Functions directly.
 
 ## 🌐 Deployment Methods
 
@@ -57,16 +53,17 @@ VITE_BACKEND_URL=https://your-railway-backend-url.railway.app
 
 #### Step 3: Configure Build Settings
 Netlify will auto-detect the settings from `netlify.toml`, but verify:
-- **Build command**: `chmod +x build.sh && ./build.sh`
+- **Build command**: `cd frontend && npm install && npm run build`
 - **Publish directory**: `frontend/dist`
 - **Base directory**: `.` (root)
 
 #### Step 4: Set Environment Variables
 In the Netlify dashboard:
 1. Go to Site settings → Environment variables
-2. Add the following variable:
+2. Add the following variables:
    ```
-   VITE_BACKEND_URL=https://your-railway-backend-url.railway.app
+   NEWS_API_KEY=your_actual_news_api_key
+   GEMINI_API_KEY=your_actual_gemini_api_key
    ```
 
 #### Step 5: Deploy
@@ -101,42 +98,37 @@ netlify deploy --prod
 ### netlify.toml
 The `netlify.toml` file in your project root contains:
 - Build settings
+- Functions configuration
 - Redirects for SPA
 - Security headers
 - Cache headers
 - Development settings
 
-### _redirects (Alternative)
-If you prefer, create `frontend/public/_redirects`:
-```
-/*    /index.html   200
-```
+### Functions
+Your Netlify Functions are located in `netlify/functions/`:
+- `news.js` - Handles news fetching
+- `summarize.js` - Handles AI summarization
 
 ## 🌍 Environment Variables
 
 ### Required Variables
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `VITE_BACKEND_URL` | Railway backend URL for news fetching and AI summarization | `https://your-app.railway.app` |
+| `NEWS_API_KEY` | News API key for fetching news articles | `abc123def456` |
+| `GEMINI_API_KEY` | Google Gemini API key for AI summarization | `xyz789uvw012` |
 
 ### Setting in Netlify
 1. Go to Site settings → Environment variables
 2. Add each variable with its value
 3. Redeploy the site
 
-## 🔄 Backend Deployment Options
+## 🔄 API Endpoints
 
-### Option 1: Deploy Backend Separately
-- Deploy backend to Heroku, Railway, or Render
-- Update `VITE_API_URL` in Netlify environment variables
+### News API
+- `GET /.netlify/functions/news?category=technology` - Fetch news by category
 
-### Option 2: Use Netlify Functions
-- Convert backend API to serverless functions
-- Deploy functions alongside frontend
-
-### Option 3: Use External API Services
-- Use services like Supabase, Firebase, or similar
-- Update frontend to use these services
+### Summarization API
+- `POST /.netlify/functions/summarize` - Summarize article content
 
 ## 🎯 Custom Domain Setup
 
@@ -182,89 +174,45 @@ npm install --force
 ```
 
 #### 2. Environment Variables Not Working
-- Ensure variables start with `VITE_`
+- Ensure variables are set in Netlify dashboard
 - Redeploy after adding variables
 - Check variable names match exactly
 
-#### 3. API Calls Fail
-- Check CORS settings on backend
-- Verify API URLs are correct
-- Ensure API keys are valid
+#### 3. Functions Not Working
+- Check function logs in Netlify dashboard
+- Verify API keys are valid
+- Check function syntax and exports
 
-#### 4. Routing Issues
-- Verify `_redirects` file is in `frontend/public/`
-- Check `netlify.toml` redirects configuration
+#### 4. CORS Errors
+- Functions handle CORS automatically
+- No additional configuration needed
 
-### Debug Commands
-```bash
-# Test build locally
-cd frontend && npm run build
+## 🚀 Benefits of Netlify Functions
 
-# Check build output
-ls -la frontend/dist/
+### 1. Single Platform
+- Frontend and backend on same platform
+- No external dependencies
 
-# Test production build
-cd frontend && npm run preview
-```
+### 2. No CORS Issues
+- Same domain for all requests
+- Automatic CORS handling
 
-## 📈 Monitoring and Analytics
+### 3. Serverless
+- Pay only for what you use
+- Automatic scaling
 
-### 1. Netlify Analytics
-- Built-in analytics in Netlify dashboard
-- Page views, unique visitors, bandwidth usage
-
-### 2. Google Analytics
-- Add Google Analytics tracking code
-- Configure in `frontend/index.html`
-
-### 3. Error Monitoring
-- Set up error tracking (Sentry, LogRocket)
-- Monitor API failures and user errors
-
-## 🔄 Continuous Deployment
-
-### Automatic Deploys
-- Every push to `main` branch triggers deployment
-- Preview deployments for pull requests
-- Branch deployments for feature testing
-
-### Manual Deploys
-- Trigger deploys from Netlify dashboard
-- Deploy specific branches or commits
-
-## 🛡️ Security Considerations
-
-### 1. Environment Variables
-- Never commit API keys to repository
-- Use Netlify environment variables
-- Rotate keys regularly
-
-### 2. CORS Configuration
-- Configure backend to allow Netlify domain
-- Use environment-specific CORS settings
-
-### 3. Content Security Policy
-- Add CSP headers in `netlify.toml`
-- Restrict external resource loading
-
-## 📚 Additional Resources
-
-- [Netlify Documentation](https://docs.netlify.com/)
-- [Vite Deployment Guide](https://vitejs.dev/guide/static-deploy.html)
-- [React Deployment Best Practices](https://create-react-app.dev/docs/deployment/)
-- [Netlify Functions](https://docs.netlify.com/functions/overview/)
+### 4. Easy Deployment
+- Deploy with git push
+- Automatic function deployment
 
 ## 🎉 Success Checklist
 
-- [ ] Repository pushed to GitHub
-- [ ] Local build successful
+- [ ] Frontend deployed successfully
 - [ ] Environment variables configured
-- [ ] Netlify site deployed
+- [ ] Functions working properly
+- [ ] News API integration working
+- [ ] AI summarization working
 - [ ] Custom domain configured (optional)
 - [ ] SSL certificate active
-- [ ] Backend API accessible
-- [ ] All features working
-- [ ] Performance optimized
-- [ ] Analytics configured
 
-Your NewsFlow AI Dashboard should now be live on Netlify! 🚀 
+Your NewsFlow AI Dashboard is now fully deployed on Netlify! 🚀 
