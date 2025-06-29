@@ -1,0 +1,18 @@
+# Ignore root package files to avoid conflicts
+package.json
+package-lock.json
+node_modules/
+
+# Ignore frontend files
+frontend/
+
+# Ignore documentation and config files
+*.md
+.git/
+.vscode/
+netlify.toml
+env.example
+News_AI_Summarizer_Blueprint.txt
+
+# Only include backend files
+!backend/ 
